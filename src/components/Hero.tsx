@@ -22,12 +22,12 @@ const Hero = () => {
                     গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
                 </p>
 
-                <Link
-                    href="#সব-পণ্য"
-                    className="mt-5 inline-block rounded-lg bg-green-700 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800"
-                >
-                    সব পণ্য দেখুন
-                </Link>
+               <Link
+                        href="#সব-পণ্য"
+                        className="mt-5 inline-block rounded-lg bg-green-700 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800"
+                    >
+                        সব পণ্য দেখুন
+                    </Link>
             </div>
 
             <Image
