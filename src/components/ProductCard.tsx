@@ -1,4 +1,5 @@
 import { bn, unitBn, type Product } from "@/lib/utils";
+import Link from "next/link";
 
 const ProductCard = ({ product: p }: { product: Product }) => {
     const { dir, pct } = p.change;
@@ -13,8 +14,7 @@ const ProductCard = ({ product: p }: { product: Product }) => {
     const arrow = dir === "up" ? "▲" : dir === "down" ? "▼" : "—";
 
     return (
-        <div className="rounded-2xl border border-gray-200/70 bg-white/70 p-4">
-            {/* ওপরে: ইমোজি + নাম + একক */}
+        <Link href={`/product/${p.slug}`} className="rounded-2xl border border-gray-200/70 bg-white/70 p-4">
             <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-xl">
                     {p.image}
@@ -25,7 +25,7 @@ const ProductCard = ({ product: p }: { product: Product }) => {
                 </div>
             </div>
 
-            {/* নিচে: দাম + ব্যাজ */}
+            
             <div className="mt-4 text-xs text-gray-500">আজকের দাম</div>
             <div className="flex items-end justify-between">
                 <div className="text-lg font-bold">
@@ -35,7 +35,7 @@ const ProductCard = ({ product: p }: { product: Product }) => {
                     {arrow} {bn(Math.abs(pct))}%
                 </span>
             </div>
-        </div>
+        </Link>
     );
 };
 

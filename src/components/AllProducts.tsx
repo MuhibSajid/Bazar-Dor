@@ -1,6 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { bn, type Product } from "@/lib/utils";
-import Link from "next/link";
+
 
 const AllProducts = ({ products }: { products: Product[] }) => {
     return (
@@ -10,11 +10,11 @@ const AllProducts = ({ products }: { products: Product[] }) => {
                 মোট {bn(products.length)}টি পণ্য দেখানো হচ্ছে
             </p>
 
-            <Link href="#" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {products.map((p) => (
                     <ProductCard key={p.id} product={p} />
                 ))}
-            </Link>
+            </div>
         </section>
     );
 };

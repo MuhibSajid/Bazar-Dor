@@ -18,27 +18,38 @@ const GithubIcon = () => (
 const inputClass =
     "w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none placeholder:text-gray-400 focus:border-green-600 focus:ring-2 focus:ring-green-600/20";
 
+const labelClass = "mb-1 block text-sm font-medium";
+
 const socialClass =
     "flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium hover:bg-gray-50";
 
-const SignInPage = () => {
+const SignUpPage = () => {
     return (
         <div className="mx-auto max-w-md py-10">
-
+            {/* শিরোনাম */}
             <div className="text-center">
-                <h1 className="text-2xl font-bold">সাইন আপ</h1>
+                <h1 className="text-2xl font-bold">অ্যাকাউন্ট তৈরি করুন</h1>
                 <p className="mt-1 text-sm text-gray-600">
-                    বিস্তারিত দাম, বাজার তুলনা ও প্রোফাইল দেখতে অ্যাকাউন্টে ঢুকুন।
+                    বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
                 </p>
             </div>
 
-  
+            {/* কার্ড */}
             <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50/60 p-6">
                 <form className="space-y-4">
                     <div>
-                        <label htmlFor="email" className="mb-1 block text-sm font-medium">
-                            ইমেইল
-                        </label>
+                        <label htmlFor="name" className={labelClass}>নাম</label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="যেমন: রহিম উদ্দিন"
+                            className={inputClass}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="email" className={labelClass}>ইমেইল</label>
                         <input
                             id="email"
                             name="email"
@@ -49,9 +60,7 @@ const SignInPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="mb-1 block text-sm font-medium">
-                            পাসওয়ার্ড
-                        </label>
+                        <label htmlFor="password" className={labelClass}>পাসওয়ার্ড</label>
                         <input
                             id="password"
                             name="password"
@@ -61,14 +70,28 @@ const SignInPage = () => {
                         />
                     </div>
 
+                    <div>
+                        <label htmlFor="confirmPassword" className={labelClass}>
+                            পাসওয়ার্ড নিশ্চিত করুন
+                        </label>
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="আবার লিখুন"
+                            className={inputClass}
+                        />
+                    </div>
+
                     <button
                         type="submit"
                         className="w-full rounded-lg bg-green-700 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800"
                     >
-                        সাইন আপ
+                        অ্যাকাউন্ট তৈরি করুন
                     </button>
                 </form>
 
+                {/* অথবা */}
                 <div className="my-5 flex items-center gap-3 text-xs text-gray-500">
                     <span className="h-px flex-1 bg-gray-200" />
                     অথবা
@@ -88,9 +111,9 @@ const SignInPage = () => {
                 </div>
 
                 <p className="mt-5 text-center text-sm">
-                    অ্যাকাউন্ট নেই?{" "}
-                    <Link href="/signup" className="font-medium text-green-700 hover:underline">
-                        সাইন আপ করুন
+                    অ্যাকাউন্ট আছে?{" "}
+                    <Link href="/signin" className="font-medium text-green-700 hover:underline">
+                        সাইন ইন করুন
                     </Link>
                 </p>
             </div>
@@ -104,4 +127,4 @@ const SignInPage = () => {
     );
 };
 
-export default SignInPage;
+export default SignUpPage;
