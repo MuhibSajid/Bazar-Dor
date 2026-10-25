@@ -26,7 +26,7 @@ const socialClass =
 const SignUpPage = () => {
     return (
         <div className="mx-auto max-w-md py-10">
-            {/* শিরোনাম */}
+       
             <div className="text-center">
                 <h1 className="text-2xl font-bold">অ্যাকাউন্ট তৈরি করুন</h1>
                 <p className="mt-1 text-sm text-gray-600">
@@ -34,7 +34,7 @@ const SignUpPage = () => {
                 </p>
             </div>
 
-            {/* কার্ড */}
+    
             <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50/60 p-6">
                 <form className="space-y-4">
                     <div>
@@ -43,7 +43,7 @@ const SignUpPage = () => {
                             id="name"
                             name="name"
                             type="text"
-                            placeholder="যেমন: রহিম উদ্দিন"
+                            placeholder="যেমন: মুহিব্বুল্লাহ সাজিদ "
                             className={inputClass}
                         />
                     </div>
@@ -91,14 +91,13 @@ const SignUpPage = () => {
                     </button>
                 </form>
 
-                {/* অথবা */}
+  
                 <div className="my-5 flex items-center gap-3 text-xs text-gray-500">
                     <span className="h-px flex-1 bg-gray-200" />
                     অথবা
                     <span className="h-px flex-1 bg-gray-200" />
                 </div>
 
-                {/* সোশ্যাল বাটন */}
                 <div className="grid grid-cols-2 gap-2">
                     <button type="button" className={socialClass}>
                         <GoogleIcon />

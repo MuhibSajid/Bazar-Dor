@@ -32,7 +32,6 @@ const SignInPage = () => {
                 </p>
             </div>
 
-            {/* কার্ড */}
             <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50/60 p-6">
                 <form className="space-y-4">
                     <div>
