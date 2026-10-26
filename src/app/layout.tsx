@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
 import PriceTicker from "@/components/PriceTicker";
 import Footer from "@/components/Footer";
+import { ToastContainer } from "react-toastify";
 
 const hindSiliguri = Hind_Siliguri({
   subsets: ["bengali", "latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer/>
         </div>
+        <ToastContainer position="top-right" />
       </body>
     </html>
   );

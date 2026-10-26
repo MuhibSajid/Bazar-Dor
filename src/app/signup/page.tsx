@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
 
 const GoogleIcon = () => (
     <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
@@ -21,12 +27,70 @@ const inputClass =
 const labelClass = "mb-1 block text-sm font-medium";
 
 const socialClass =
-    "flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium hover:bg-gray-50";
+    "flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-60";
 
 const SignUpPage = () => {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const name = String(formData.get("name") ?? "").trim();
+        const email = String(formData.get("email") ?? "").trim();
+        const password = String(formData.get("password") ?? "");
+        const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+        if (!name || !email) {
+            toast.error("নাম ও ইমেইল দিন।");
+            return;
+        }
+        if (password.length < 8) {
+            toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে।");
+            return;
+        }
+        if (password !== confirmPassword) {
+            toast.error("পাসওয়ার্ড দুটি মিলছে না।");
+            return;
+        }
+
+        setLoading(true);
+
+        const { error } = await authClient.signUp.email({
+            name,
+            email,
+            password,
+            callbackURL: "/",
+        });
+
+        setLoading(false);
+
+        if (error) {
+            toast.error(error.message || "সাইন আপ ব্যর্থ!");
+            return;
+        }
+
+        toast.success("অ্যাকাউন্ট তৈরি হয়েছে! 🎉");
+        router.push("/");
+        router.refresh();
+    };
+
+    const handleSocial = async (provider: "google" | "github") => {
+        setLoading(true);
+        const { error } = await authClient.signIn.social({
+            provider,
+            callbackURL: "/",
+        });
+
+        if (error) {
+            setLoading(false);
+            toast.error(error.message || "সাইন আপ ব্যর্থ!");
+        }
+    };
+
     return (
         <div className="mx-auto max-w-md py-10">
-       
             <div className="text-center">
                 <h1 className="text-2xl font-bold">অ্যাকাউন্ট তৈরি করুন</h1>
                 <p className="mt-1 text-sm text-gray-600">
@@ -34,43 +98,45 @@ const SignUpPage = () => {
                 </p>
             </div>
 
-    
             <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50/60 p-6">
-                <form className="space-y-4">
-                    <div>
+                <form className="space-y-4" onSubmit={onSubmit}>
+                    <fieldset>
                         <label htmlFor="name" className={labelClass}>নাম</label>
                         <input
                             id="name"
                             name="name"
                             type="text"
-                            placeholder="যেমন: মুহিব্বুল্লাহ সাজিদ "
+                            required
+                            placeholder="যেমন: মুহিব্বুল্লাহ সাজিদ"
                             className={inputClass}
                         />
-                    </div>
+                    </fieldset>
 
-                    <div>
+                    <fieldset>
                         <label htmlFor="email" className={labelClass}>ইমেইল</label>
                         <input
                             id="email"
                             name="email"
                             type="email"
+                            required
                             placeholder="you@example.com"
                             className={inputClass}
                         />
-                    </div>
+                    </fieldset>
 
-                    <div>
+                    <fieldset>
                         <label htmlFor="password" className={labelClass}>পাসওয়ার্ড</label>
                         <input
                             id="password"
                             name="password"
                             type="password"
+                            required
                             placeholder="কমপক্ষে ৮ অক্ষর"
                             className={inputClass}
                         />
-                    </div>
+                    </fieldset>
 
-                    <div>
+                    <fieldset>
                         <label htmlFor="confirmPassword" className={labelClass}>
                             পাসওয়ার্ড নিশ্চিত করুন
                         </label>
@@ -78,20 +144,21 @@ const SignUpPage = () => {
                             id="confirmPassword"
                             name="confirmPassword"
                             type="password"
+                            required
                             placeholder="আবার লিখুন"
                             className={inputClass}
                         />
-                    </div>
+                    </fieldset>
 
                     <button
                         type="submit"
-                        className="w-full rounded-lg bg-green-700 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800"
+                        disabled={loading}
+                        className="w-full rounded-lg bg-green-700 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800 disabled:opacity-60"
                     >
-                        অ্যাকাউন্ট তৈরি করুন
+                        {loading ? "অপেক্ষা করুন..." : "অ্যাকাউন্ট তৈরি করুন"}
                     </button>
                 </form>
 
-  
                 <div className="my-5 flex items-center gap-3 text-xs text-gray-500">
                     <span className="h-px flex-1 bg-gray-200" />
                     অথবা
@@ -99,11 +166,21 @@ const SignUpPage = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                    <button type="button" className={socialClass}>
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={() => handleSocial("google")}
+                        className={socialClass}
+                    >
                         <GoogleIcon />
                         Google দিয়ে চালিয়ে যান
                     </button>
-                    <button type="button" className={socialClass}>
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={() => handleSocial("github")}
+                        className={socialClass}
+                    >
                         <GithubIcon />
                         GitHub দিয়ে চালিয়ে যান
                     </button>

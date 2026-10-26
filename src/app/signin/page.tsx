@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
 
 const GoogleIcon = () => (
     <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
@@ -19,9 +25,59 @@ const inputClass =
     "w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none placeholder:text-gray-400 focus:border-green-600 focus:ring-2 focus:ring-green-600/20";
 
 const socialClass =
-    "flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium hover:bg-gray-50";
+    "flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-60";
+
+const getCallbackUrl = () => {
+    if (typeof window === "undefined") return "/";
+    const raw = new URLSearchParams(window.location.search).get("callbackUrl") || "/";
+    return raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
+};
 
 const SignInPage = () => {
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const callbackUrl = getCallbackUrl();
+        setLoading(true);
+
+        const { error } = await authClient.signIn.email({
+            email,
+            password,
+            callbackURL: callbackUrl,
+        });
+
+        setLoading(false);
+
+        if (error) {
+            toast.error(error.message || "সাইন ইন ব্যর্থ!");
+            return;
+        }
+
+        toast.success("সাইন ইন সফল! 🎉");
+        router.push(callbackUrl);
+        router.refresh();
+    };
+
+   
+    const handleSocial = async (provider: "google" | "github") => {
+        setLoading(true);
+        const { error } = await authClient.signIn.social({
+            provider,
+            callbackURL: getCallbackUrl(),
+        });
+
+   
+        if (error) {
+            setLoading(false);
+            toast.error(error.message || "সাইন ইন ব্যর্থ!");
+        }
+    };
+
     return (
         <div className="mx-auto max-w-md py-10">
             {/* শিরোনাম */}
@@ -32,8 +88,9 @@ const SignInPage = () => {
                 </p>
             </div>
 
+  
             <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50/60 p-6">
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label htmlFor="email" className="mb-1 block text-sm font-medium">
                             ইমেইল
@@ -42,6 +99,9 @@ const SignInPage = () => {
                             id="email"
                             name="email"
                             type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
                             className={inputClass}
                         />
@@ -55,6 +115,10 @@ const SignInPage = () => {
                             id="password"
                             name="password"
                             type="password"
+                            required
+                            minLength={8}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="কমপক্ষে ৮ অক্ষর"
                             className={inputClass}
                         />
@@ -62,9 +126,10 @@ const SignInPage = () => {
 
                     <button
                         type="submit"
-                        className="w-full rounded-lg bg-green-700 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800"
+                        disabled={loading}
+                        className="w-full rounded-lg bg-green-700 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-green-800 disabled:opacity-60"
                     >
-                        সাইন ইন
+                        {loading ? "অপেক্ষা করুন..." : "সাইন ইন"}
                     </button>
                 </form>
 
@@ -75,13 +140,23 @@ const SignInPage = () => {
                     <span className="h-px flex-1 bg-gray-200" />
                 </div>
 
-                {/* সোশ্যাল বাটন */}
+  
                 <div className="grid grid-cols-2 gap-2">
-                    <button type="button" className={socialClass}>
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={() => handleSocial("google")}
+                        className={socialClass}
+                    >
                         <GoogleIcon />
                         Google দিয়ে চালিয়ে যান
                     </button>
-                    <button type="button" className={socialClass}>
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={() => handleSocial("github")}
+                        className={socialClass}
+                    >
                         <GithubIcon />
                         GitHub দিয়ে চালিয়ে যান
                     </button>
