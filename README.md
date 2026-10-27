@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# বাজার দর (BazarDor)
 
-## Getting Started
+🌐 **লাইভ ডেমো:** [https://bazar-dor-chi-gilt.vercel.app](https://bazar-dor-chi-gilt.vercel.app)
 
-First, run the development server:
+## সংক্ষিপ্ত বিবরণ
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+বাজার দর একটি ওয়েব অ্যাপ্লিকেশন, যেখানে একজন ক্রেতা খুব সহজেই নিত্যপ্রয়োজনীয় খাদ্যপণ্যের দাম জানতে পারেন। সাইন আপ করে ক্রেতা দেখতে পারেন আজ কোন বাজারে কোন পণ্যের দাম কত।
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ব্যবহৃত প্রযুক্তি
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| প্রযুক্তি | ব্যবহার |
+|---|---|
+| Next.js | ফ্রেমওয়ার্ক |
+| TypeScript | ভাষা |
+| Tailwind CSS | স্টাইলিং |
+| DaisyUI | UI কম্পোনেন্ট |
+| Better Auth | অথেনটিকেশন |
+| MongoDB | ডাটাবেস |
+| React Toastify | নোটিফিকেশন |
+| React Fast Marquee | স্ক্রলিং দামের তালিকা |
+| Google Fonts (Hind Siliguri) | বাংলা ফন্ট |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## প্রধান ৫টি ফিচার
 
-## Learn More
+1. **আজ দাম বেড়েছে:** যেসব পণ্যের দাম বেড়েছে, সেগুলো এই সেকশনে দেখা যাবে।
+2. **আজ দাম কমেছে:** যেসব পণ্যের দাম কমেছে, সেগুলো এই সেকশনে দেখা যাবে।
+3. **সব পণ্য:** এখানে সকল পণ্য একসাথে দেখা যাবে।
+4. **ক্যাটাগরি:** পণ্যগুলো আলাদা আলাদা ক্যাটাগরিতে ভাগ করা আছে (চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম-দুধ, মসলা)। ক্রেতা ক্যাটাগরি অনুযায়ী বিভিন্ন দামের পণ্য দেখতে পারবেন।
+5. **সাইন ইন ও সাইন আপ:** ক্রেতা ইমেইল ও পাসওয়ার্ড দিয়ে, অথবা Google বা GitHub দিয়ে সাইন ইন করতে পারবেন। সাইন ইন করার পর প্রতিটি পণ্যের বিস্তারিত দেখা যাবে, যেমন দাম বেড়েছে না কমেছে, আজ কোন বাজারে কত, আগে কত ছিল ইত্যাদি।
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
