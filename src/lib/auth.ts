@@ -6,8 +6,14 @@ const client = new MongoClient(process.env.BETTER_AUTH_MONGO_DB_URL as string);
 const db = client.db("bazar-dor");
 
 export const auth = betterAuth({
-     emailAndPassword: { 
-    enabled: true, 
+  emailAndPassword: {
+    enabled: true,
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google", "github"],
+    },
   },
   socialProviders:{
       google:{
